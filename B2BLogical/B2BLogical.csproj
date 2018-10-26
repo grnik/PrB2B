@@ -49,6 +49,7 @@
     <Compile Include="LLogin.cs" />
     <Compile Include="LSalesperson.cs" />
     <Compile Include="LSection.cs" />
+    <Compile Include="LShipAddress.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Properties\Settings.Designer.cs">
       <AutoGen>True</AutoGen>

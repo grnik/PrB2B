@@ -13,5 +13,12 @@ namespace PronetB2B.Controllers
         {
             return B2BLogical.LCustomerEssential.GetByToken(token);
         }
+
+        // GET
+        // http://png.pronetgroup.ru:116/api/Customer/Essentials?Token=ssssss
+        public List<LShipAddress> GetShipAddresses(string token)
+        {
+            return B2BLogical.LShipAddress.GetByToken(token);
+        }
     }
 }
