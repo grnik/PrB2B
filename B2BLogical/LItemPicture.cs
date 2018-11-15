@@ -60,6 +60,12 @@ namespace B2BLogical
             return properties != null ? Translate(properties) : null;
         }
 
+        public static LItemPicture GetByCode(int code)
+        {
+            DItemPicture picture = DItemPicture.GetByCode(code);
+            return picture != null ? new LItemPicture(picture) : null;
+        }
+
         #endregion
     }
 }

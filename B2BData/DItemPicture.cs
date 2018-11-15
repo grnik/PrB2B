@@ -65,6 +65,31 @@ WHERE ItemNo = @ItemNo
             return res;
         }
 
+
+        public static DItemPicture GetByCode(int code)
+        {
+            using (SqlConnection connect = new SqlConnection(Properties.Settings.Default.ConnectionB2B))
+            {
+                string commText = @"
+SELECT *
+FROM PronetB2B_ItemPictures
+WHERE Code = @Code
+                ";
+                SqlCommand command = new SqlCommand(commText, connect);
+                command.Parameters.Add("Code", SqlDbType.Int).Value = code;
+                connect.Open();
+                using (SqlDataReader data = command.ExecuteReader())
+                {
+                    while (data.Read())
+                    {
+                        return new DItemPicture(data);
+                    }
+                }
+            }
+
+            return null;
+        }
+
         #endregion
     }
 }

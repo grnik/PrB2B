@@ -69,7 +69,7 @@ namespace B2BData
 
         }
 
-        public static List<DItem> GetAllByPriceType(string priceType)
+        public static List<DItem> GetAllByPriceType(string priceType, bool available = true)
         {
             List<DItem> res = new List<DItem>();
             using (SqlConnection connect = new SqlConnection(Properties.Settings.Default.ConnectionB2B))
@@ -79,6 +79,10 @@ SELECT *
 FROM PronetB2B_Items
 WHERE PriceType = @PriceType
                 ";
+                if (available)
+                {
+                    commText += " AND [Available]  > 0";
+                }
                 SqlCommand command = new SqlCommand(commText, connect);
                 command.Parameters.Add("PriceType", SqlDbType.VarChar).Value = priceType;
                 connect.Open();
@@ -94,7 +98,15 @@ WHERE PriceType = @PriceType
             return res;
         }
 
-        public static List<DItem> GetByParent(string priceType, string parent, bool withChildren)
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="priceType">Тип цены</param>
+        /// <param name="parent">Родительская группа</param>
+        /// <param name="withChildren">С подгруппами</param>
+        /// <param name="available">Выдавать только доступный товар</param>
+        /// <returns></returns>
+        public static List<DItem> GetByParent(string priceType, string parent, bool withChildren, bool available = true)
         {
             List<DItem> res = new List<DItem>();
             using (SqlConnection connect = new SqlConnection(Properties.Settings.Default.ConnectionB2B))
@@ -105,6 +117,10 @@ FROM PronetB2B_Items
 WHERE PriceType = @PriceType
   AND ParentCode like @ParentCode
                 ";
+                if(available)
+                {
+                    commText += " AND [Available]  > 0";
+                }
                 SqlCommand command = new SqlCommand(commText, connect);
                 command.Parameters.Add("PriceType", SqlDbType.VarChar).Value = priceType;
                 string parentSearch = withChildren ? parent + "%" : parent;

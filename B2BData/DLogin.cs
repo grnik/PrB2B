@@ -12,6 +12,19 @@ namespace B2BData
     {
         #region Properties
 
+        static DLogin Testing = new DLogin()
+        {
+            Email = "GrigoryevNE@pronetgroup.ru",
+            Password = "123",
+            Name = "Николай",
+            Patronymic = "Евг",
+            Surname = "Григ",
+            Phone = "266",
+            Token = "TEST_B2B_PRONET",
+            LastVisitTime = DateTime.Now,
+            CustomerNo = "TEST_GRIGORYEV"
+        };
+
         public string Email { get; set; }
         public string Password { get; set; }
         public string Name { get; set; }
@@ -23,6 +36,8 @@ namespace B2BData
         public DateTime LastVisitTime { get; set; }
 
         public string CustomerNo { get; set; }
+
+        public string SalespersonCode { get; set; }
 
         #endregion
 
@@ -50,6 +65,7 @@ namespace B2BData
             Token = reader["Token"].ToString();
             LastVisitTime = (DateTime)reader["LastVisitTime"];
             CustomerNo = reader["CustomerNo"].ToString();
+            SalespersonCode = reader["SalespersonCode"].ToString();
         }
 
         public static DLogin GetByLoginPass(string login, string password)
@@ -86,6 +102,12 @@ WHERE Email = @Email
         /// <returns></returns>
         public void SaveTokenLastVisitTime()
         {
+            if (Token == Testing.Token)
+            {
+                Testing.LastVisitTime = DateTime.Now;
+                return;
+            }
+
             using (SqlConnection connect = new SqlConnection(Properties.Settings.Default.ConnectionB2B))
             {
                 string commText = @"
@@ -107,6 +129,12 @@ WHERE Email = @Email;
 
         public static DLogin GetLoginByToken(string token)
         {
+            if (token == Testing.Token)
+            {
+                Testing.LastVisitTime = DateTime.Now;
+                return Testing;
+            }
+
             using (SqlConnection connect = new SqlConnection(Properties.Settings.Default.ConnectionB2B))
             {
                 string commText = @"

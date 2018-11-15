@@ -43,10 +43,12 @@
   <ItemGroup>
     <Compile Include="ExceptionLogin.cs" />
     <Compile Include="LCustomerEssential.cs" />
+    <Compile Include="LDocument.cs" />
     <Compile Include="LItem.cs" />
     <Compile Include="LItemPicture.cs" />
     <Compile Include="LItemProperty.cs" />
     <Compile Include="LLogin.cs" />
+    <Compile Include="LOrder.cs" />
     <Compile Include="LSalesperson.cs" />
     <Compile Include="LSection.cs" />
     <Compile Include="LShipAddress.cs" />

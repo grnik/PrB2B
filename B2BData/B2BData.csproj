@@ -41,10 +41,12 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="DCustomer.cs" />
+    <Compile Include="DDocument.cs" />
     <Compile Include="DCustomerEssential.cs" />
     <Compile Include="DItem.cs" />
     <Compile Include="DItemPicture.cs" />
     <Compile Include="DLogin.cs" />
+    <Compile Include="DOrder.cs" />
     <Compile Include="DSalesperson.cs" />
     <Compile Include="DSection.cs" />
     <Compile Include="DItemProperty.cs" />
