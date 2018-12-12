@@ -40,6 +40,9 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="DBasket.cs" />
+    <Compile Include="DBasketLine.cs" />
+    <Compile Include="DCurrencyExchangeRate.cs" />
     <Compile Include="DCustomer.cs" />
     <Compile Include="DDocument.cs" />
     <Compile Include="DCustomerEssential.cs" />

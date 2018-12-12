@@ -2,7 +2,9 @@
 using System.Collections.Generic;
 using System.Data;
 using System.Data.SqlClient;
+using System.Globalization;
 using System.Linq;
+using System.Runtime.Remoting.Messaging;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -37,6 +39,9 @@ namespace B2BData
         public bool License { get; set; }
         public decimal InsuranceLimit { get; set; }
         public string Insurance { get; set; }
+        public string DueDateCalculation { get; set; }
+        public string CalendarCode { get; set; }
+        public Decimal Balance { get; set; }
 
         #endregion Properties
 
@@ -80,6 +85,9 @@ namespace B2BData
             License = Convert.ToByte(reader["License"]) != 0;
             InsuranceLimit = (decimal)reader["InsuranceLimit"];
             Insurance = reader["Insurance"].ToString();
+            DueDateCalculation = reader["DueDateCalculation"].ToString();
+            CalendarCode = reader["CalendarCode"].ToString();
+            Balance = reader["Balance"] == DBNull.Value ? 0 : Convert.ToDecimal(reader["Balance"]);
         }
 
         public static List<DCustomerEssential> GetByCustomerNo(string customerNo)

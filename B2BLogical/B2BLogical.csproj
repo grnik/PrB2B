@@ -42,6 +42,9 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="ExceptionLogin.cs" />
+    <Compile Include="LBasket.cs" />
+    <Compile Include="LBasketLine.cs" />
+    <Compile Include="LCurrencyExchangeRate.cs" />
     <Compile Include="LCustomerEssential.cs" />
     <Compile Include="LDocument.cs" />
     <Compile Include="LItem.cs" />

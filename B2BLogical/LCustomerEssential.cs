@@ -7,14 +7,43 @@ using System.Text;
 using System.Threading.Tasks;
 using B2BData;
 using System.Runtime.Serialization;
+using System.Security.Cryptography;
 
 namespace B2BLogical
 {
-    //http://localhost:60088/api/Customer/Essentials?Token=b6ea29b8-b07f-450e-8e2f-c2f86137dff4
+    //http://localhost:60088/api/Customer/GetEssentials?Token=TEST_B2B_PRONET
     [DataContract]
     public class LCustomerEssential
     {
         #region Properties
+
+        private static readonly MD5 Md5Hash = MD5.Create();
+
+        [DataMember]
+        public string Key
+        {
+            set { }
+            get
+            {
+                string input = CustomerNo + Id;
+                // Convert the input string to a byte array and compute the hash.
+                byte[] data = Md5Hash.ComputeHash(Encoding.UTF8.GetBytes(input));
+
+                // Create a new Stringbuilder to collect the bytes
+                // and create a string.
+                StringBuilder sBuilder = new StringBuilder();
+
+                // Loop through each byte of the hashed data 
+                // and format each one as a hexadecimal string.
+                for (int i = 0; i < data.Length; i++)
+                {
+                    sBuilder.Append(data[i].ToString("x2"));
+                }
+
+                // Return the hexadecimal string.
+                return sBuilder.ToString();
+            }
+        }
 
         [DataMember]
         public string CustomerNo { get; set; }
@@ -66,6 +95,12 @@ namespace B2BLogical
         public decimal InsuranceLimit { get; set; }
         [DataMember]
         public string Insurance { get; set; }
+        [DataMember]
+        public string DueDateCalculation { get; set; }
+        [DataMember]
+        public string CalendarCode { get; set; }
+        [DataMember]
+        public Decimal Balance { get; set; }
 
         #endregion Properties
 
@@ -107,6 +142,10 @@ namespace B2BLogical
             License = essential.License;
             InsuranceLimit = essential.InsuranceLimit;
             Insurance = essential.Insurance;
+            DueDateCalculation = essential.DueDateCalculation;
+            DueDateCalculation = DueDateCalculation.Replace("\u0002", "Д");
+            CalendarCode = essential.CalendarCode;
+            Balance = essential.Balance;
         }
 
         internal static List<LCustomerEssential> Translate(List<DCustomerEssential> dCustomerEssentials)

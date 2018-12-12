@@ -13,6 +13,8 @@ namespace B2BLogical
     {
         #region Properties
 
+        private static List<LCurrencyExchangeRate> _currencyCash = null;
+
         [DataMember] public string Id { get; set; }
         [DataMember] public string Name { get; set; }
         [DataMember] public string NameRus { get; set; }
@@ -29,6 +31,7 @@ namespace B2BLogical
         [DataMember] public decimal Volume { get; set; }
         [DataMember] public decimal Price { get; set; }
         [DataMember] public string PriceCurrency { get; set; }
+        [DataMember] public decimal PriceRUR { get; set; }
         [DataMember] public string PriceType { get; set; }
         [DataMember] public string Guarantee { get; set; }
 
@@ -62,14 +65,18 @@ namespace B2BLogical
             Weight = item.Weight;
             BalanceType = item.BalanceType;
             Volume = item.Volume;
-            Price = item.Price;
+            Price = Math.Round(item.Price, 2);
             PriceCurrency = item.PriceCurrency;
             PriceType = item.PriceType;
             Guarantee = item.Guarantee;
+
+            PriceRUR = Math.Round(Price * GetCourse(), 2);
         }
 
         internal static List<LItem> Translate(List<DItem> dItems)
         {
+            _currencyCash = new List<LCurrencyExchangeRate>();
+
             List<LItem> res = new List<LItem>();
             foreach (DItem dItem in dItems)
             {
@@ -95,6 +102,24 @@ namespace B2BLogical
 
             List<DItem> items = DItem.GetByParent(customer.PriceType, parent, withChildren);
             return items != null ? Translate(items) : null;
+        }
+
+        /// <summary>
+        /// Возвращаем курс валюты цены.
+        /// </summary>
+        /// <returns></returns>
+        private decimal GetCourse()
+        {
+            if (String.IsNullOrEmpty(PriceCurrency))
+                return 1;
+
+            LCurrencyExchangeRate curr = _currencyCash.FirstOrDefault(c => c.CurrencyCode == PriceCurrency);
+            if (curr == null)
+            {
+                curr = LCurrencyExchangeRate.GetByLastCurrencyRate(PriceCurrency);
+                _currencyCash.Add(curr);
+            }
+            return curr.ExchangeRate;
         }
 
         #endregion
