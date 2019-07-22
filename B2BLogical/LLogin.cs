@@ -22,6 +22,12 @@ namespace B2BLogical
         public DateTime LastVisitTime { get; private set; }
 
         public string CustomerNo { get; set; }
+
+        /// <summary>
+        /// Логин может разрешать отгрузку из интернета
+        /// </summary>
+        public bool AllowShipmInt { get; set; }
+
         #endregion
 
         #region Constructores
@@ -46,6 +52,7 @@ namespace B2BLogical
             Token = login.Token;
             LastVisitTime = login.LastVisitTime;
             CustomerNo = login.CustomerNo;
+            AllowShipmInt = login.AllowShipmInt;
         }
 
         internal DLogin GetData()

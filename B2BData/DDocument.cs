@@ -89,6 +89,63 @@ WHERE CustomerNo = @CustomerNo;
             return res;
         }
 
+        public static List<DDocument> GetByCustPeriod(string customerNo, DateTime startDate, DateTime? finishDate)
+        {
+            finishDate = finishDate ?? DateTime.MaxValue;
+            List<DDocument> res = new List<DDocument>();
+            using (SqlConnection connect = new SqlConnection(Properties.Settings.Default.ConnectionB2B))
+            {
+                string commText = @"
+SELECT *
+FROM [PronetB2B_CustLedgerEntry]
+WHERE CustomerNo = @CustomerNo
+  AND DocumentDate >= @StartDate
+  AND DocumentDate <= @FinishDate
+                ";
+                SqlCommand command = new SqlCommand(commText, connect);
+                command.Parameters.Add("CustomerNo", SqlDbType.VarChar).Value = customerNo;
+                command.Parameters.Add("StartDate", SqlDbType.DateTime).Value = startDate;
+                command.Parameters.Add("FinishDate", SqlDbType.DateTime).Value = finishDate;
+                connect.Open();
+                using (SqlDataReader data = command.ExecuteReader())
+                {
+                    while (data.Read())
+                    {
+                        res.Add(new DDocument(data));
+                    }
+                }
+            }
+
+            return res;
+        }
+
+        public static List<DDocument> GetPaymentSheduleByCustomerNo(string customerNo)
+        {
+            List<DDocument> res = new List<DDocument>();
+            using (SqlConnection connect = new SqlConnection(Properties.Settings.Default.ConnectionB2B))
+            {
+                string commText = @"
+SELECT *
+FROM [PronetB2B_CustLedgerEntry]
+WHERE CustomerNo = @CustomerNo
+  AND [Open] <> 0
+  AND Amount > 0
+                ";
+                SqlCommand command = new SqlCommand(commText, connect);
+                command.Parameters.Add("CustomerNo", SqlDbType.VarChar).Value = customerNo;
+                connect.Open();
+                using (SqlDataReader data = command.ExecuteReader())
+                {
+                    while (data.Read())
+                    {
+                        res.Add(new DDocument(data));
+                    }
+                }
+            }
+
+            return res;
+        }
+
         #endregion
     }
 }

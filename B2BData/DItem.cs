@@ -69,6 +69,34 @@ namespace B2BData
 
         }
 
+        public static DItem GetByPriceTypeId(string priceType, string id)
+        {
+            using (SqlConnection connect = new SqlConnection(Properties.Settings.Default.ConnectionB2B))
+            {
+                string commText = @"
+SELECT *
+FROM PronetB2B_Items
+WHERE PriceType = @PriceType
+  and Id = @Id
+                ";
+                SqlCommand command = new SqlCommand(commText, connect);
+                command.Parameters.Add("PriceType", SqlDbType.VarChar).Value = priceType;
+                command.Parameters.Add("Id", SqlDbType.VarChar).Value = id;
+                connect.Open();
+                using (SqlDataReader data = command.ExecuteReader())
+                {
+                    if (data.Read())
+                    {
+                        return new DItem(data);
+                    }
+                    else
+                    {
+                        return null;
+                    }
+                }
+            }
+        }
+
         public static List<DItem> GetAllByPriceType(string priceType, bool available = true)
         {
             List<DItem> res = new List<DItem>();
@@ -99,7 +127,7 @@ WHERE PriceType = @PriceType
         }
 
         /// <summary>
-        /// 
+        /// Возвращаем товар указанной группы
         /// </summary>
         /// <param name="priceType">Тип цены</param>
         /// <param name="parent">Родительская группа</param>
@@ -117,7 +145,7 @@ FROM PronetB2B_Items
 WHERE PriceType = @PriceType
   AND ParentCode like @ParentCode
                 ";
-                if(available)
+                if (available)
                 {
                     commText += " AND [Available]  > 0";
                 }
@@ -138,7 +166,45 @@ WHERE PriceType = @PriceType
             return res;
         }
 
-        #endregion
+        /// <summary>
+        /// Возвращаем код товар указанной группы
+        /// </summary>
+        /// <param name="parent">Родительская группа</param>
+        /// <param name="withChildren">С подгруппами</param>
+        /// <param name="available">Выдавать только доступный товар</param>
+        /// <returns></returns>
+        public static List<string> GetItemIdByParent(string parent, bool withChildren, bool available = true)
+        {
+            List<string> res = new List<string>();
+            using (SqlConnection connect = new SqlConnection(Properties.Settings.Default.ConnectionB2B))
+            {
+                //Используем DISTINCT, что бы не писать PriceType = '1'
+                string commText = @"
+SELECT DISTINCT Id
+FROM PronetB2B_Items
+WHERE ParentCode like @ParentCode
+                ";
+                if (available)
+                {
+                    commText += " AND [Available]  > 0";
+                }
+                SqlCommand command = new SqlCommand(commText, connect);
+                //command.Parameters.Add("PriceType", SqlDbType.VarChar).Value = priceType;
+                string parentSearch = withChildren ? parent + "%" : parent;
+                command.Parameters.Add("ParentCode", SqlDbType.VarChar).Value = parentSearch;
+                connect.Open();
+                using (SqlDataReader data = command.ExecuteReader())
+                {
+                    while (data.Read())
+                    {
+                        res.Add(data["Id"].ToString());
+                    }
+                }
+            }
 
+            return res;
+        }
+
+        #endregion
     }
 }

@@ -46,10 +46,16 @@
     <Compile Include="DCustomer.cs" />
     <Compile Include="DDocument.cs" />
     <Compile Include="DCustomerEssential.cs" />
+    <Compile Include="DInvoice.cs" />
+    <Compile Include="DInvoiceLine.cs" />
     <Compile Include="DItem.cs" />
     <Compile Include="DItemPicture.cs" />
+    <Compile Include="DItemPrice.cs" />
     <Compile Include="DLogin.cs" />
     <Compile Include="DOrder.cs" />
+    <Compile Include="DOrderChange.cs" />
+    <Compile Include="DOrderLine.cs" />
+    <Compile Include="DOrderStatus.cs" />
     <Compile Include="DSalesperson.cs" />
     <Compile Include="DSection.cs" />
     <Compile Include="DItemProperty.cs" />

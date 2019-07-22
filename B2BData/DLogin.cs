@@ -38,6 +38,10 @@ namespace B2BData
         public string CustomerNo { get; set; }
 
         public string SalespersonCode { get; set; }
+        /// <summary>
+        /// Логин может разрешать отгрузку из интернета
+        /// </summary>
+        public bool AllowShipmInt { get; set; }
 
         #endregion
 
@@ -66,6 +70,7 @@ namespace B2BData
             LastVisitTime = (DateTime)reader["LastVisitTime"];
             CustomerNo = reader["CustomerNo"].ToString();
             SalespersonCode = reader["SalespersonCode"].ToString();
+            AllowShipmInt = Convert.ToByte(reader["Allow Shipm_ Int_"]) != 0;
         }
 
         public static DLogin GetByLoginPass(string login, string password)

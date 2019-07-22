@@ -33,5 +33,14 @@ namespace B2BData.Properties {
                 return ((string)(this["ConnectionB2B"]));
             }
         }
+        
+        [global::System.Configuration.ApplicationScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("00:02:00")]
+        public global::System.TimeSpan NotificationPause {
+            get {
+                return ((global::System.TimeSpan)(this["NotificationPause"]));
+            }
+        }
     }
 }

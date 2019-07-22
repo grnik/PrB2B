@@ -42,6 +42,10 @@ namespace B2BData
         public string DueDateCalculation { get; set; }
         public string CalendarCode { get; set; }
         public Decimal Balance { get; set; }
+        /// <summary>
+        /// Число просроченных документов. Оно показывает сколько документов с просрочкой есть на клиенте. Без учета юр.лица!
+        /// </summary>
+        public int OverdueDocuments { get; set; }
 
         #endregion Properties
 
@@ -88,6 +92,7 @@ namespace B2BData
             DueDateCalculation = reader["DueDateCalculation"].ToString();
             CalendarCode = reader["CalendarCode"].ToString();
             Balance = reader["Balance"] == DBNull.Value ? 0 : Convert.ToDecimal(reader["Balance"]);
+            OverdueDocuments = (int)reader["OverdueDocuments"];
         }
 
         public static List<DCustomerEssential> GetByCustomerNo(string customerNo)

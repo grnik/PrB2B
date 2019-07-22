@@ -25,23 +25,8 @@ namespace B2BLogical
             set { }
             get
             {
-                string input = CustomerNo + Id;
-                // Convert the input string to a byte array and compute the hash.
-                byte[] data = Md5Hash.ComputeHash(Encoding.UTF8.GetBytes(input));
-
-                // Create a new Stringbuilder to collect the bytes
-                // and create a string.
-                StringBuilder sBuilder = new StringBuilder();
-
-                // Loop through each byte of the hashed data 
-                // and format each one as a hexadecimal string.
-                for (int i = 0; i < data.Length; i++)
-                {
-                    sBuilder.Append(data[i].ToString("x2"));
-                }
-
-                // Return the hexadecimal string.
-                return sBuilder.ToString();
+                string allString = CustomerNo + Id;
+                return allString.GetKey();
             }
         }
 
@@ -87,12 +72,21 @@ namespace B2BLogical
         public string AgreementNo { get; set; }
         [DataMember]
         public string ShipToCode { get; set; }
+        /// <summary>
+        /// Сколько денег израсходовано из лимита
+        /// </summary>
         [DataMember]
         public bool Credit { get; set; }
         [DataMember]
         public bool License { get; set; }
+        /// <summary>
+        /// Лимит страхования
+        /// </summary>
         [DataMember]
         public decimal InsuranceLimit { get; set; }
+        /// <summary>
+        /// Кто дал лимит страхования
+        /// </summary>
         [DataMember]
         public string Insurance { get; set; }
         [DataMember]
@@ -101,6 +95,11 @@ namespace B2BLogical
         public string CalendarCode { get; set; }
         [DataMember]
         public Decimal Balance { get; set; }
+        /// <summary>
+        /// Число просроченных документов. Оно показывает сколько документов с просрочкой есть на клиенте. Без учета юр.лица!
+        /// </summary>
+        [DataMember]
+        public int OverdueDocuments { get; set; }
 
         #endregion Properties
 
@@ -146,6 +145,7 @@ namespace B2BLogical
             DueDateCalculation = DueDateCalculation.Replace("\u0002", "Д");
             CalendarCode = essential.CalendarCode;
             Balance = essential.Balance;
+            OverdueDocuments = essential.OverdueDocuments;
         }
 
         internal static List<LCustomerEssential> Translate(List<DCustomerEssential> dCustomerEssentials)
@@ -165,6 +165,33 @@ namespace B2BLogical
 
             List<DCustomerEssential> essentials = DCustomerEssential.GetByCustomerNo(login.CustomerNo);
             return essentials != null ? Translate(essentials) : null;
+        }
+
+        /// <summary>
+        /// Генерация уникального ключа по коду клиента и ключу реквизитов
+        /// </summary>
+        /// <param name="customerNo"></param>
+        /// <param name="id"></param>
+        /// <returns></returns>
+        internal static string GetKey(string customerNo, string id)
+        {
+            string input = customerNo + id;
+            // Convert the input string to a byte array and compute the hash.
+            byte[] data = Md5Hash.ComputeHash(Encoding.UTF8.GetBytes(input));
+
+            // Create a new Stringbuilder to collect the bytes
+            // and create a string.
+            StringBuilder sBuilder = new StringBuilder();
+
+            // Loop through each byte of the hashed data 
+            // and format each one as a hexadecimal string.
+            for (int i = 0; i < data.Length; i++)
+            {
+                sBuilder.Append(data[i].ToString("x2"));
+            }
+
+            // Return the hexadecimal string.
+            return sBuilder.ToString();
         }
 
         #endregion

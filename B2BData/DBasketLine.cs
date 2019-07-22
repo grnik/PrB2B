@@ -16,6 +16,7 @@ namespace B2BData
         public string ItemNo { get; set; }
         public decimal Quantity { get; set; }
         public decimal Price { get; set; }
+        public string Comment { get; set; }
         #endregion
 
         #region Constructors
@@ -38,6 +39,7 @@ namespace B2BData
             ItemNo = reader["ItemNo"].ToString();
             Quantity = (decimal)reader["Quantity"];
             Price = (decimal)reader["Price"];
+            Comment = reader["Comment"].ToString();
         }
 
         public void Insert()
@@ -64,9 +66,10 @@ INSERT INTO [dbo].[B2B_BasketLine]
            ,[LineNo]
            ,[ItemNo]
            ,[Quantity]
-           ,[Price])
+           ,[Price]
+           ,[Comment])
      VALUES
-           (@BasketNo, @LineNo, @ItemNo,@Quantity,@Price)
+           (@BasketNo, @LineNo, @ItemNo,@Quantity,@Price,@Comment)
                 ";
                 SqlCommand command = new SqlCommand(commText, connect);
                 command.Parameters.Add("BasketNo", SqlDbType.Int).Value = BasketNo;
@@ -74,6 +77,7 @@ INSERT INTO [dbo].[B2B_BasketLine]
                 command.Parameters.Add("ItemNo", SqlDbType.VarChar).Value = String.IsNullOrEmpty(ItemNo) ? "" : ItemNo;
                 command.Parameters.Add("Quantity", SqlDbType.Decimal).Value = Quantity;
                 command.Parameters.Add("Price", SqlDbType.Decimal).Value = Price;
+                command.Parameters.Add("Comment", SqlDbType.VarChar).Value = String.IsNullOrEmpty(Comment) ? "" : Comment;
 
                 connect.Open();
                 command.ExecuteNonQuery();

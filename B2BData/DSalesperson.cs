@@ -76,6 +76,32 @@ WHERE Token = @Token;
             }
         }
 
+        public static DSalesperson GetByCode(string code)
+        {
+            using (SqlConnection connect = new SqlConnection(Properties.Settings.Default.ConnectionB2B))
+            {
+                string commText = @"
+SELECT TOP 1 *
+FROM PronetB2B_Salesperson
+WHERE SalespersonCode = @SalespersonCode;
+                ";
+                SqlCommand command = new SqlCommand(commText, connect);
+                command.Parameters.Add("SalespersonCode", SqlDbType.VarChar).Value = code;
+                connect.Open();
+                using (SqlDataReader data = command.ExecuteReader())
+                {
+                    if (data.Read())
+                    {
+                        return new DSalesperson(data);
+                    }
+                    else
+                    {
+                        return null;
+                    }
+                }
+            }
+        }
+
         #endregion
     }
 }

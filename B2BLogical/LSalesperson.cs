@@ -14,7 +14,7 @@ namespace B2BLogical
         public string EmailLogin { get; set; }
         public string CustomerNo { get; set; }
         public string Token { get; set; }
-        public string SalespersonCode { get; set; }
+        public string Code { get; set; }
         public string Name { get; set; }
         public string Email { get; set; }
         public string Phone { get; set; }
@@ -39,7 +39,7 @@ namespace B2BLogical
             EmailLogin = salesperson.EmailLogin;
             CustomerNo = salesperson.CustomerNo;
             Token = salesperson.Token;
-            SalespersonCode = salesperson.SalespersonCode;
+            Code = salesperson.SalespersonCode;
             Name = salesperson.Name;
             Email = salesperson.Email;
             Phone = salesperson.Phone;
@@ -52,6 +52,12 @@ namespace B2BLogical
             LLogin.CheckToken(token);
 
             DSalesperson salesperson = DSalesperson.GetSalespersonByToken(token);
+            return salesperson != null ? new LSalesperson(salesperson) : null;
+        }
+
+        internal static LSalesperson GetByCode(string code)
+        {
+            DSalesperson salesperson = DSalesperson.GetByCode(code);
             return salesperson != null ? new LSalesperson(salesperson) : null;
         }
 

@@ -15,7 +15,7 @@ namespace B2BLogical
 
         [DataMember]
         public string Code { get; set; }
-        [DataMember]
+        [IgnoreDataMember]
         public string FileName { get; set; }
         [DataMember]
         public int Type { get; set; }

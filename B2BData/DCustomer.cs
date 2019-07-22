@@ -20,6 +20,13 @@ namespace B2BData
         public string Phone { get; set; }
         public string Email { get; set; }
         public string Currency { get; set; }
+         /// <summary>
+        /// Число просроченных документов
+        /// </summary>
+        public int OverdueDocuments { get; set; }
+        public string SalespersonCode { get; set; }
+        public string SalespersonCodeNB { get; set; }
+        public string SalespersonCodeRegional { get; set; }
 
         #endregion
 
@@ -46,6 +53,10 @@ namespace B2BData
             Phone = reader["Phone"].ToString();
             Email = reader["Email"].ToString();
             Currency = reader["Currency"].ToString();
+            OverdueDocuments = (int)reader["OverdueDocuments"];
+            SalespersonCode = reader["SalespersonCode"].ToString();
+            SalespersonCodeNB = reader["SalespersonCodeNB"].ToString();
+            SalespersonCodeRegional = reader["SalespersonCodeRegional"].ToString();
         }
 
         public static List<DCustomer> GetAll()

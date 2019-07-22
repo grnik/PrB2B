@@ -8,6 +8,11 @@ using B2BData;
 
 namespace B2BLogical
 {
+    /// <summary>
+    /// ENU=Reserv,Writed,Gather,Shipment;RUS=Резерв,Подтвержден,На сборку,К отгрузке
+    /// </summary>
+    public enum OrderStatus { Reserv = 0, Writed = 1, Gather = 2, Shipment = 3 }
+
     [DataContract]
     public class LOrder
     {
@@ -66,6 +71,16 @@ namespace B2BLogical
         [DataMember]
         public string EssentialCustomer { get; set; }
         [DataMember]
+        public string EssentialCustomerKey
+        {
+            get
+            {
+                string key = CustomerNo + EssentialCustomer;
+                return string.IsNullOrEmpty(EssentialCustomer) ? string.Empty : key.GetKey();
+            }
+            private set { throw new NotSupportedException("Метод только на чтение"); }
+        }
+        [DataMember]
         public string ShippingNote { get; set; }
         [DataMember]
         public string DocumentReason { get; set; }
@@ -87,6 +102,15 @@ namespace B2BLogical
         public decimal DopFinanceProc { get; set; }
         [DataMember]
         public decimal TotalSum { get; set; }
+        [DataMember]
+        public decimal InCredit { get; set; }
+        [DataMember]
+        public decimal AccountSum { get; set; }
+        /// <summary>
+        /// Строки заказа
+        /// </summary>
+        [DataMember]
+        public List<LOrderLine> Line { get; set; }
 
         #endregion Properties
 
@@ -140,6 +164,15 @@ namespace B2BLogical
             ActDate = order.ActDate;
             DopFinanceProc = order.DopFinanceProc;
             TotalSum = order.TotalSum;
+            InCredit = order.InCredit;
+            AccountSum = order.AccountSum;
+
+            Line = new List<LOrderLine>();
+            List<DOrderLine> lines = DOrderLine.GetByDocument(DocumentType, DocumentNo);
+            foreach (DOrderLine line in lines)
+            {
+                Line.Add(new LOrderLine(this, line));
+            }
         }
 
         internal static List<LOrder> Translate(List<DOrder> dOrders)
@@ -159,6 +192,43 @@ namespace B2BLogical
 
             List<DOrder> orders = DOrder.GetByCustomerNo(login.CustomerNo);
             return orders != null ? Translate(orders) : null;
+        }
+
+        public static LOrder GetByNo(string token, int type, string no)
+        {
+            LLogin login = LLogin.CheckToken(token);
+            //DCustomer customer = DCustomer.GetById(login.CustomerNo);
+
+            LOrder order = GetByNo(type, no);
+
+            if (order.CustomerNo != login.CustomerNo)
+                return null;
+
+            return order;
+        }
+
+        internal static LOrder GetByNo(int type, string no)
+        {
+            DOrder dOrder = DOrder.GetByNo(type, no);
+            if (dOrder == null)
+                return null;
+
+            return new LOrder(dOrder);
+        }
+
+        /// <summary>
+        /// Изменяем статус заказа
+        /// </summary>
+        /// <param name="token"></param>
+        /// <param name="newStatus"></param>
+        /// <returns></returns>
+        public Guid ChangeStatus(string token, int newStatus)
+        {
+            if(newStatus > 1)
+                throw new Exception("Пока можно менять только на подтвержден и обратно.");
+
+            LOrderStatus orderStatus = new LOrderStatus() {DocumentType = DocumentType,DocumentNo = DocumentNo, NewStatus = (OrderStatus)newStatus };
+            return orderStatus.Insert(token);
         }
 
         #endregion

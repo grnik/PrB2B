@@ -25,10 +25,73 @@ namespace B2BLogical.Properties {
         
         [global::System.Configuration.ApplicationScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("01:00:00")]
+        [global::System.Configuration.DefaultSettingValueAttribute("24.00:00:00")]
         public global::System.TimeSpan LifeTimeToken {
             get {
                 return ((global::System.TimeSpan)(this["LifeTimeToken"]));
+            }
+        }
+        
+        [global::System.Configuration.ApplicationScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("GrigoryevNE@pronetgroup.ru")]
+        public string FromMail {
+            get {
+                return ((string)(this["FromMail"]));
+            }
+        }
+        
+        [global::System.Configuration.ApplicationScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("Grigoryev Nikolay")]
+        public string FromName {
+            get {
+                return ((string)(this["FromName"]));
+            }
+        }
+        
+        [global::System.Configuration.ApplicationScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("")]
+        public string FromPassword {
+            get {
+                return ((string)(this["FromPassword"]));
+            }
+        }
+        
+        [global::System.Configuration.ApplicationScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("192.168.0.181")]
+        public string SMTPHost {
+            get {
+                return ((string)(this["SMTPHost"]));
+            }
+        }
+        
+        [global::System.Configuration.ApplicationScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("0")]
+        public int SMTPPort {
+            get {
+                return ((int)(this["SMTPPort"]));
+            }
+        }
+        
+        [global::System.Configuration.ApplicationScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("False")]
+        public bool SMTPEnableSSL {
+            get {
+                return ((bool)(this["SMTPEnableSSL"]));
+            }
+        }
+        
+        [global::System.Configuration.ApplicationScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("True")]
+        public bool SMTPUseDefaultCredentials {
+            get {
+                return ((bool)(this["SMTPUseDefaultCredentials"]));
             }
         }
     }

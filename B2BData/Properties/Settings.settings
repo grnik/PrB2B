@@ -10,5 +10,8 @@
 &lt;/SerializableConnectionString&gt;</DesignTimeValue>
       <Value Profile="(Default)">Data Source=Navision;Initial Catalog=Pronet2;Persist Security Info=True;User ID=PronetB2B;Password=12345</Value>
     </Setting>
+    <Setting Name="NotificationPause" Type="System.TimeSpan" Scope="Application">
+      <Value Profile="(Default)">00:02:00</Value>
+    </Setting>
   </Settings>
 </SettingsFile>

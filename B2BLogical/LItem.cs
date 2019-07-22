@@ -29,11 +29,15 @@ namespace B2BLogical
         [DataMember] public decimal Weight { get; set; }
         [DataMember] public string BalanceType { get; set; }
         [DataMember] public decimal Volume { get; set; }
-        [DataMember] public decimal Price { get; set; }
-        [DataMember] public string PriceCurrency { get; set; }
-        [DataMember] public decimal PriceRUR { get; set; }
-        [DataMember] public string PriceType { get; set; }
         [DataMember] public string Guarantee { get; set; }
+        [DataMember]
+        public decimal Price { get; set; }
+        [DataMember]
+        public decimal PriceRUR { get; set; }
+        [DataMember]
+        public string PriceCurrency { get; set; }
+        [DataMember]
+        public string PriceType { get; set; }
 
         #endregion Properties
 
@@ -84,6 +88,39 @@ namespace B2BLogical
             }
 
             return res;
+        }
+
+        public static LItem GetByTokenId(string token, string id)
+        {
+            _currencyCash = new List<LCurrencyExchangeRate>();
+
+            LLogin login = LLogin.CheckToken(token);
+            DCustomer customer = DCustomer.GetById(login.CustomerNo);
+
+            return GetByPriceTypeId(customer, id);
+        }
+
+        internal static LItem GetByPriceTypeId(DCustomer customer, string id)
+        {
+            DItem item = DItem.GetByPriceTypeId(customer.PriceType, id);
+            return item != null ? new LItem(item) : null;
+        }
+
+        public static List<LItem> GetByListId(string token, string listId)
+        {
+            _currencyCash = new List<LCurrencyExchangeRate>();
+
+            LLogin login = LLogin.CheckToken(token);
+            DCustomer customer = DCustomer.GetById(login.CustomerNo);
+
+            string[] ids = listId.Split(',');
+            List<LItem> items = new List<LItem>();
+            foreach (string id in ids)
+            {
+                items.Add(LItem.GetByPriceTypeId(customer, id));
+            }
+
+            return items;
         }
 
         public static List<LItem> GetAllByToken(string token)

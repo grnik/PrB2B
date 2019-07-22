@@ -11,11 +11,13 @@ namespace PronetB2B.Controllers
     public class LoginController : ApiController
     {
         // http://png.pronetgroup.ru:116/api/
-        // GET localhost:60088/api/Login/Logon?login=GrigoryevNE@pronetgroup.ru&password=123
+        // GET localhost:60088/api/Login/GetLogon?login=GrigoryevNE@pronetgroup.ru&password=123
         public LLogin GetLogon(string login, string password)
         {
             return B2BLogical.LLogin.LogOn(login, password);
         }
+
+        //http://png.pronetgroup.ru:116/api/Login/GetSalesperson?token=TEST_B2B_PRONET
         public LSalesperson GetSalesperson(string token)
         {
             return B2BLogical.LSalesperson.GetByToken(token);

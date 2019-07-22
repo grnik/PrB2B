@@ -11,10 +11,15 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "B2BLogical", "B2BLogical\B2
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{3DDFE601-364D-4803-A44A-A5438EC838F8}"
 	ProjectSection(SolutionItems) = preProject
+		API.docx = API.docx
 		Сроки разработки b2b системы Pronet.docx = Сроки разработки b2b системы Pronet.docx
 	EndProjectSection
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Test", "Test\Test.csproj", "{88D610B4-91CE-4267-B23F-3A8C26C0C154}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Service", "..\..\YandexDisk\Проекты\Pronet\PronetB2B\Service\Service.csproj", "{5081FD01-53F3-4F22-9CCD-B1099FACEC8F}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TestForm", "TestForm\TestForm.csproj", "{8F21F9EC-FF54-4118-8480-7C8F0E3C44B5}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -38,6 +43,14 @@ Global
 		{88D610B4-91CE-4267-B23F-3A8C26C0C154}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{88D610B4-91CE-4267-B23F-3A8C26C0C154}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{88D610B4-91CE-4267-B23F-3A8C26C0C154}.Release|Any CPU.Build.0 = Release|Any CPU
+		{5081FD01-53F3-4F22-9CCD-B1099FACEC8F}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{5081FD01-53F3-4F22-9CCD-B1099FACEC8F}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{5081FD01-53F3-4F22-9CCD-B1099FACEC8F}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{5081FD01-53F3-4F22-9CCD-B1099FACEC8F}.Release|Any CPU.Build.0 = Release|Any CPU
+		{8F21F9EC-FF54-4118-8480-7C8F0E3C44B5}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{8F21F9EC-FF54-4118-8480-7C8F0E3C44B5}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{8F21F9EC-FF54-4118-8480-7C8F0E3C44B5}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{8F21F9EC-FF54-4118-8480-7C8F0E3C44B5}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

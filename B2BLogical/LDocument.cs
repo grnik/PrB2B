@@ -90,6 +90,27 @@ namespace B2BLogical
             return orders != null ? Translate(orders) : null;
         }
 
+        public static List<LDocument> GetByCustPeriod(string token, DateTime startDate, DateTime? finishDate)
+        {
+            LLogin login = LLogin.CheckToken(token);
+
+            List<DDocument> orders = DDocument.GetByCustPeriod(login.CustomerNo, startDate, finishDate);
+            return orders != null ? Translate(orders) : null;
+        }
+
+        /// <summary>
+        /// Список документов для оплаты
+        /// </summary>
+        /// <param name="token"></param>
+        /// <returns></returns>
+        public static List<LDocument> GetPaymentSheduleByToken(string token)
+        {
+            LLogin login = LLogin.CheckToken(token);
+
+            List<DDocument> orders = DDocument.GetPaymentSheduleByCustomerNo(login.CustomerNo);
+            return orders != null ? Translate(orders) : null;
+        }
+
         #endregion
     }
 }

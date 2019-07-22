@@ -49,6 +49,8 @@ namespace B2BData
         public DateTime ActDate { get; set; }
         public decimal DopFinanceProc { get; set; }
         public decimal TotalSum { get; set; }
+        public decimal InCredit { get; set; }
+        public decimal AccountSum { get; set; }
         #endregion
 
         #region Constructores
@@ -110,7 +112,9 @@ namespace B2BData
             ActNumber = reader["Act Number"].ToString();
             ActDate = Convert.ToDateTime(reader["Act Date"]);
             DopFinanceProc = Convert.ToDecimal(reader["Dop_ Finance %"]);
-            TotalSum = Convert.ToDecimal(reader["TotalSum"]);
+            TotalSum = reader["TotalSum"] == DBNull.Value ? 0 : Convert.ToDecimal(reader["TotalSum"]);
+            InCredit = reader["In Credit"] == DBNull.Value ? 0 : Convert.ToDecimal(reader["In Credit"]);
+            AccountSum = reader["Account Sum"] == DBNull.Value ? 0 : Convert.ToDecimal(reader["Account Sum"]);
         }
 
         public static List<DOrder> GetByCustomerNo(string customerNo)
@@ -136,6 +140,32 @@ WHERE CustomerNo = @CustomerNo;
             }
 
             return res;
+        }
+
+        public static DOrder GetByNo(int type, string no)
+        {
+            using (SqlConnection connect = new SqlConnection(Properties.Settings.Default.ConnectionB2B))
+            {
+                string commText = @"
+SELECT *
+FROM PronetB2B_Orders
+WHERE DocumentType = @DocumentType
+  AND DocumentNo = @DocumentNo
+                ";
+                SqlCommand command = new SqlCommand(commText, connect);
+                command.Parameters.Add("DocumentType", SqlDbType.VarChar).Value = type;
+                command.Parameters.Add("DocumentNo", SqlDbType.VarChar).Value = no;
+                connect.Open();
+                using (SqlDataReader data = command.ExecuteReader())
+                {
+                    if (data.Read())
+                    {
+                        return new DOrder(data);
+                    }
+                }
+            }
+
+            return null;
         }
 
         #endregion
