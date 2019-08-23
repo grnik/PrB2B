@@ -77,9 +77,9 @@ namespace B2BLogical
         public string ShippingNote { get; set; }
         [DataMember]
         public string DocumentReason { get; set; }
-        [DataMember]
+        [IgnoreDataMember]
         public DateTime DeleteDate { get; set; }
-        [DataMember]
+        [IgnoreDataMember]
         public string BaseCalendarCode { get; set; }
         [DataMember]
         public string AgreementType { get; set; }
@@ -91,7 +91,7 @@ namespace B2BLogical
         public string ActNumber { get; set; }
         [DataMember]
         public DateTime ActDate { get; set; }
-        [DataMember]
+        [IgnoreDataMember]
         public decimal DopFinanceProc { get; set; }
         [DataMember]
         public decimal TotalSum { get; set; }

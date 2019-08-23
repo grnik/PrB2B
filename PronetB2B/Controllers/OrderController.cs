@@ -13,7 +13,7 @@ namespace PronetB2B.Controllers
     {
         private static Logger logger = LogManager.GetCurrentClassLogger();
 
-        // http://png.pronetgroup.ru:116/api/Customer/GetOrders?Token=TEST_B2B_PRONET
+        // http://png.pronetgroup.ru:116/api/Order/GetOrders?Token=TEST_B2B_PRONET
         public List<LOrder> GetOrders(string token)
         {
             return B2BLogical.LOrder.GetByToken(token);
@@ -106,14 +106,14 @@ Content-Type: application/json
             }
         }
 
-        //localhost:60088/api/Customer/GetBasketOrder?Token=TEST_B2B_PRONET&no=24
+        //localhost:60088/api/Order/GetBasketOrder?Token=TEST_B2B_PRONET&no=24
         [System.Web.Http.HttpGet]
         public LBasket GetBasketOrder(string token, int no)
         {
             return LBasket.GetByNo(token, no);
         }
 
-        //localhost:60088/api/Customer/GetOrder?Token=TEST_B2B_PRONET&type=1&no=КЛЗК-Р19-004199
+        //localhost:60088/api/Order/GetOrder?Token=TEST_B2B_PRONET&type=1&no=КЛЗК-Р19-004199
         [System.Web.Http.HttpGet]
         public LOrder GetOrder(string token, int type, string no)
         {

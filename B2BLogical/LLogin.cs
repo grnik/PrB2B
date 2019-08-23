@@ -1,31 +1,47 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Runtime.Serialization;
 using System.Text;
 using System.Threading.Tasks;
 using B2BData;
 
 namespace B2BLogical
 {
+    [DataContract]
     public class LLogin
     {
         #region Properties
 
+        [DataMember]
         public string Email { get; set; }
+        //TODO: Убрать на новой версии
+        //[IgnoreDataMember]
+        [DataMember]
         public string Password { get; set; }
+        [DataMember]
         public string Name { get; set; }
+        [DataMember]
         public string Patronymic { get; set; }
+        [DataMember]
         public string Surname { get; set; }
+        [DataMember]
         public string Phone { get; set; }
 
+        [DataMember]
         public string Token { get; private set; }
+        [DataMember]
         public DateTime LastVisitTime { get; private set; }
 
+        //TODO: Убрать на новой версии
+        //[IgnoreDataMember]
+        [DataMember]
         public string CustomerNo { get; set; }
 
         /// <summary>
         /// Логин может разрешать отгрузку из интернета
         /// </summary>
+        [DataMember]
         public bool AllowShipmInt { get; set; }
 
         #endregion

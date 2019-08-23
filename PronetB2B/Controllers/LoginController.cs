@@ -22,5 +22,12 @@ namespace PronetB2B.Controllers
         {
             return B2BLogical.LSalesperson.GetByToken(token);
         }
+
+        // http://png.pronetgroup.ru:116/api/Login/GetCheckToken?token=TEST_B2B_PRONET
+        // GET localhost:60088/api/Login/GetLogon?login=GrigoryevNE@pronetgroup.ru&password=123
+        public LLogin GetCheckToken(string token)
+        {
+            return B2BLogical.LLogin.CheckToken(token);
+        }
     }
 }

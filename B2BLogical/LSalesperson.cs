@@ -1,24 +1,35 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Runtime.Serialization;
 using System.Text;
 using System.Threading.Tasks;
 using B2BData;
 
 namespace B2BLogical
 {
+    [DataContract]
     public class LSalesperson
     {
         #region Properties
 
+        [DataMember]
         public string EmailLogin { get; set; }
+        [IgnoreDataMember]
         public string CustomerNo { get; set; }
+        [IgnoreDataMember]
         public string Token { get; set; }
+        [DataMember]
         public string Code { get; set; }
+        [DataMember]
         public string Name { get; set; }
+        [DataMember]
         public string Email { get; set; }
+        [DataMember]
         public string Phone { get; set; }
+        [DataMember]
         public string ICQ { get; set; }
+        [DataMember]
         public string Mobile { get; set; }
 
         #endregion

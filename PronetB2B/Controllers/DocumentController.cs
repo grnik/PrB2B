@@ -31,19 +31,19 @@ namespace PronetB2B.Controllers
             }
         }
 
-        // http://png.pronetgroup.ru:116/api/Customer/GetDocuments?Token=TEST_B2B_PRONET
+        // http://png.pronetgroup.ru:116/api/Document/GetDocuments?Token=TEST_B2B_PRONET
         public List<LDocument> GetDocuments(string token)
         {
             return B2BLogical.LDocument.GetByToken(token);
         }
 
-        // http://localhost:60088/api/Customer/GetDocuments?Token=TEST_B2B_PRONET&startDate=01.01.2018&finishDate=12.23.2018
+        // http://localhost:60088/api/Document/GetDocuments?Token=TEST_B2B_PRONET&startDate=01.01.2018&finishDate=12.23.2018
         public List<LDocument> GetDocuments(string token, DateTime startDate, DateTime? finishDate)
         {
             return B2BLogical.LDocument.GetByCustPeriod(token, startDate, finishDate);
         }
 
-        // http://png.pronetgroup.ru:116/api/Customer/GetPaymentSchedule?Token=TEST_B2B_PRONET
+        // http://png.pronetgroup.ru:116/api/Document/GetPaymentSchedule?Token=TEST_B2B_PRONET
         public List<LDocument> GetPaymentSchedule(string token)
         {
             return B2BLogical.LDocument.GetPaymentSheduleByToken(token);

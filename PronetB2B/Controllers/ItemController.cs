@@ -28,6 +28,11 @@ namespace PronetB2B.Controllers
 
 
         //http://localhost:60088/api/Item/GetItemsDecorate?token=TEST_B2B_PRONET
+        /// <summary>
+        /// Товар + его описание + фотки
+        /// </summary>
+        /// <param name="token"></param>
+        /// <returns></returns>
         public List<LItemDecorate> GetItemsDecorate(string token)
         {
             return B2BLogical.LItemDecorate.GetAllByToken(token);

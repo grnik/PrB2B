@@ -43,6 +43,8 @@ namespace B2BLogical
         [DataMember]
         public string Phone { get; set; }
         [DataMember]
+        public string BIC { get; set; }
+        [DataMember]
         public string BankName { get; set; }
         [DataMember]
         public string BankCity { get; set; }
@@ -56,8 +58,6 @@ namespace B2BLogical
         public string VATRegistrationNo { get; set; }
         [DataMember]
         public string PostCode { get; set; }
-        [DataMember]
-        public string BIC { get; set; }
         [DataMember]
         public string ActSignedByName { get; set; }
         [DataMember]
@@ -73,7 +73,7 @@ namespace B2BLogical
         [DataMember]
         public string ShipToCode { get; set; }
         /// <summary>
-        /// Сколько денег израсходовано из лимита
+        /// Кредитный лимит по данным реквизитам
         /// </summary>
         [DataMember]
         public bool Credit { get; set; }
