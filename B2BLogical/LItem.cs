@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Globalization;
 using System.Linq;
 using System.Runtime.Serialization;
 using System.Text;
@@ -8,6 +9,39 @@ using B2BData;
 
 namespace B2BLogical
 {
+    public struct LItemAvailable
+    {
+        public string Id;
+        public decimal Available;
+
+        internal LItemAvailable(DItemAvailable itemAvailable)
+        {
+            Id = itemAvailable.Id;
+            Available = itemAvailable.Available;
+        }
+
+        public override string ToString()
+        {
+            return Id+"=>"+Available.ToString(CultureInfo.CurrentCulture);
+        }
+
+        public static string ToString(List<LItemAvailable> list)
+        {
+            StringBuilder res = new StringBuilder();
+            foreach (LItemAvailable itemAvailable in list)
+            {
+                if (res.Length != 0)
+                {
+                    res.Append(",");
+                }
+
+                res.Append(itemAvailable.Id + "=>" + itemAvailable.Available.ToString(CultureInfo.CurrentCulture));
+            }
+
+            return res.ToString();
+        }
+    }
+
     [DataContract]
     public class LItem
     {
@@ -98,6 +132,31 @@ namespace B2BLogical
             DCustomer customer = DCustomer.GetById(login.CustomerNo);
 
             return GetByPriceTypeId(customer, id);
+        }
+
+        public static decimal GetAvailableByTokenId(string token, string id)
+        {
+            LLogin.CheckToken(token);
+
+            return DItem.GetAvailableById(id);
+        }
+
+        /// <summary>
+        /// Возвращаем список доступного товара и его кол-во
+        /// </summary>
+        /// <returns></returns>
+        public static List<LItemAvailable> GetAvailablesByToken(string token)
+        {
+            LLogin.CheckToken(token);
+
+            List<DItemAvailable> availables = DItem.GetAvailables();
+            List<LItemAvailable> result = new List<LItemAvailable>();
+            foreach (DItemAvailable dItemAvailable in availables)
+            {
+                result.Add(new LItemAvailable(dItemAvailable));
+            }
+
+            return result;
         }
 
         internal static LItem GetByPriceTypeId(DCustomer customer, string id)

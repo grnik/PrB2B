@@ -115,6 +115,13 @@ namespace B2BLogical
             GetData().SaveTokenLastVisitTime();
         }
 
+        /// <summary>
+        /// Проверяем токен.
+        /// Если успешно, то возвращаем логин.
+        /// Если токен устарел или не существует - генерирует ошибку.
+        /// </summary>
+        /// <param name="token"></param>
+        /// <returns></returns>
         public static LLogin CheckToken(string token)
         {
             LLogin login = GetLoginByToken(token);

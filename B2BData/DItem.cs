@@ -8,6 +8,12 @@ using System.Threading.Tasks;
 
 namespace B2BData
 {
+    public struct DItemAvailable
+    {
+        public string Id;
+        public decimal Available;
+    }
+
     public class DItem
     {
         #region Properties
@@ -67,6 +73,55 @@ namespace B2BData
             PriceType = reader["PriceType"].ToString();
             Guarantee = reader["Guarantee"].ToString();
 
+        }
+
+        /// <summary>
+        /// По коду товара возвращаем его доступность.
+        /// </summary>
+        /// <param name="itemId"></param>
+        /// <returns></returns>
+        public static decimal GetAvailableById(string itemId)
+        {
+            using (SqlConnection connect = new SqlConnection(Properties.Settings.Default.ConnectionB2B))
+            {
+                string commText = @"
+SELECT TOP 1 [Available]
+FROM PronetB2B_Items
+WHERE Id = @ItemId
+                ";
+                SqlCommand command = new SqlCommand(commText, connect);
+                command.Parameters.Add("ItemId", SqlDbType.VarChar).Value = itemId;
+                connect.Open();
+                return (decimal)command.ExecuteScalar();
+            }
+        }
+
+        /// <summary>
+        /// Возвращаем список доступного товара и его кол-во
+        /// </summary>
+        /// <returns></returns>
+        public static List<DItemAvailable> GetAvailables()
+        {
+            List<DItemAvailable> result = new List<DItemAvailable>();
+            using (SqlConnection connect = new SqlConnection(Properties.Settings.Default.ConnectionB2B))
+            {
+                string commText = @"
+SELECT DISTINCT Id, [Available]
+FROM PronetB2B_Items
+WHERE [Available]  > 0
+                ";
+                SqlCommand command = new SqlCommand(commText, connect);
+                connect.Open();
+                using (SqlDataReader data = command.ExecuteReader())
+                {
+                    while (data.Read())
+                    {
+                        result.Add(new DItemAvailable() { Id = data["Id"].ToString(), Available = (decimal)data["Available"] });
+                    }
+                }
+            }
+
+            return result;
         }
 
         public static DItem GetByPriceTypeId(string priceType, string id)

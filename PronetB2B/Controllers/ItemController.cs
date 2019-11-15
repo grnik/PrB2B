@@ -135,5 +135,28 @@ namespace PronetB2B.Controllers
             return B2BLogical.LItemPrice.GetByListId(token, listId, currency);
         }
 
+        /// <summary>
+        /// Возвращает доступное кол-во по указанному товару.
+        /// </summary>
+        /// <param name="token"></param>
+        /// <param name="itemNo"></param>
+        /// <returns></returns>
+        //http://localhost:60088/api/Item/GetAvailable?token=TEST_B2B_PRONET&itemNo=505101
+        public decimal GetAvailable(string token, string itemNo)
+        {
+            return B2BLogical.LItem.GetAvailableByTokenId(token, itemNo);
+        }
+
+        /// <summary>
+        /// Возвращает весь доступный товар.
+        /// </summary>
+        /// <param name="token"></param>
+        /// <param name="itemNo"></param>
+        /// <returns></returns>
+        //http://localhost:60088/api/Item/GetAvailables?token=TEST_B2B_PRONET
+        public string GetAvailables(string token)
+        {
+            return LItemAvailable.ToString(B2BLogical.LItem.GetAvailablesByToken(token));
+        }
     }
 }
